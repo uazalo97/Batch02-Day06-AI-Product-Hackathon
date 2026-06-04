@@ -262,10 +262,10 @@ function App() {
   const isDone = !!booking;
 
   return (
-    <div className="app-shell">
-      <header className="app-topbar">
-        <div className="brand">
-          <div className="logo">
+    <div className="chat-app">
+      <header className="chat-header">
+        <div className="chat-header-brand">
+          <div className="header-icon">
             <Stethoscope size={20} />
           </div>
           <div>
@@ -273,93 +273,76 @@ function App() {
             <p>Bệnh viện Demo · Tư vấn & đặt lịch tự động</p>
           </div>
         </div>
-        <div>
-          <button className="action-btn" onClick={resetDemo} title="Bắt đầu lại">
-            <RotateCcw size={16} /> <span style={{ marginLeft: 8 }}>Đặt lại</span>
-          </button>
-        </div>
+        <button className="reset-btn" onClick={resetDemo} title="Bắt đầu lại">
+          <RotateCcw size={16} />
+          <span>Đặt lại</span>
+        </button>
       </header>
 
-      <div className="chat-layout">
-        <aside className="sidebar">
-          <div className="patient-card">
-            <h4>Thông tin người khám</h4>
-            <div className="name">{patient.name || "Chưa có tên"}</div>
-            <div className="phone">{patient.phone || "Chưa có số điện thoại"}</div>
-            <div style={{ marginTop: 12 }}>
-              <button className="btn" onClick={() => setPatient({ name: "", phone: "", birth_year: "" })}>Sửa thông tin</button>
-            </div>
-          </div>
+      <div className="chat-body">
+        <div className="messages-container">
+          {messages.map((msg) => (
+            <MessageRow
+              key={msg.id}
+              msg={msg}
+              patient={patient}
+              setPatient={setPatient}
+              onConfirmPatient={confirmPatient}
+              onConfirmBooking={confirmBooking}
+              onStartBooking={startBooking}
+              onDeclineBooking={declineBooking}
+              loading={loading}
+            />
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
 
-          <div className="info-block">
-            <h4>Trạng thái</h4>
-            <div style={{ marginTop: 8 }} className={booking ? "confirm-card" : "alert"}>
-              {booking ? (
-                <div>
-                  <div style={{ fontWeight: 800 }}>{booking.id?.slice(0,8).toUpperCase()}</div>
-                  <div style={{ fontSize: 13, color: "var(--muted)" }}>Đã đặt lịch</div>
-                </div>
-              ) : (
-                <div>Chưa có lịch hẹn</div>
-              )}
-            </div>
-          </div>
-        </aside>
-
-        <main className="chat-column">
-          <div className="chat-body">
-            <div className="messages-container">
-              {messages.map((msg) => (
-                <MessageRow
-                  key={msg.id}
-                  msg={msg}
-                  patient={patient}
-                  setPatient={setPatient}
-                  onConfirmPatient={confirmPatient}
-                  onConfirmBooking={confirmBooking}
-                  onStartBooking={startBooking}
-                  onDeclineBooking={declineBooking}
-                  loading={loading}
-                />
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-          </div>
-
-          {!isDone && (
-            <div className="chat-input-bar composer">
-              {patientConfirmed && !loading && (
-                <div className="quick-chips">
-                  {["Tôi đau bụng âm ỉ 3 ngày nay", "Tôi bị đau đầu và sốt nhẹ", "Tôi đau ngực dữ dội và khó thở", "Tôi thấy mệt mỏi"].map((q) => (
-                    <button key={q} className="chip" onClick={() => sendMessage(q)}>
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              )}
-              <div className="composer-row">
-                <input
-                  className="chat-input"
-                  placeholder={!patientConfirmed ? "Điền thông tin bên trên trước..." : "Mô tả triệu chứng của bạn..."}
-                  value={input}
-                  disabled={!patientConfirmed || loading}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      sendMessage();
-                    }
-                  }}
-                />
-                <button className="send-btn" onClick={() => sendMessage()} disabled={!patientConfirmed || loading || !input.trim()}>
-                  <Send size={18} />
+      {!isDone && (
+        <div className="chat-input-bar">
+          {patientConfirmed && !loading && (
+            <div className="quick-replies">
+              {[
+                "Tôi đau bụng âm ỉ 3 ngày nay",
+                "Tôi bị đau đầu và sốt nhẹ",
+                "Tôi đau ngực dữ dội và khó thở",
+                "Tôi thấy mệt mỏi",
+              ].map((q) => (
+                <button key={q} className="quick-chip" onClick={() => sendMessage(q)}>
+                  {q}
                 </button>
-              </div>
-              <p className="input-hint">AI chỉ gợi ý khoa — không thay thế chẩn đoán y khoa.</p>
+              ))}
             </div>
           )}
-        </main>
-      </div>
+          <div className="input-row">
+            <input
+              className="chat-input"
+              placeholder={
+                !patientConfirmed
+                  ? "Điền thông tin bên trên trước..."
+                  : "Mô tả triệu chứng của bạn..."
+              }
+              value={input}
+              disabled={!patientConfirmed || loading}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  sendMessage();
+                }
+              }}
+            />
+            <button
+              className="send-btn"
+              onClick={() => sendMessage()}
+              disabled={!patientConfirmed || loading || !input.trim()}
+            >
+              <Send size={18} />
+            </button>
+          </div>
+          <p className="input-hint">AI chỉ gợi ý khoa — không thay thế chẩn đoán y khoa.</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -372,7 +355,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
     return (
       <div className="msg-row assistant">
         <BotAvatar />
-        <div className="msg-bubble thinking-bubble">
+        <div className="bubble assistant thinking-bubble">
           <span className="dot" /><span className="dot" /><span className="dot" />
         </div>
       </div>
@@ -383,7 +366,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
     return (
       <div className="msg-row assistant">
         <BotAvatar />
-        <div className="msg-bubble">
+        <div className="bubble assistant">
           {msg.locked ? (
             <span style={{ color: "var(--gray-400)", fontSize: 13 }}>Đã xử lý.</span>
           ) : (
@@ -408,7 +391,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
     return (
       <div className="msg-row assistant">
         <BotAvatar />
-        <div className="msg-bubble wide-card">
+        <div className="bubble assistant wide-bubble">
           {msg.confirmed ? (
             <div className="form-confirmed">
               <CheckCircle2 size={16} className="icon-green" />
@@ -426,7 +409,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
     return (
       <div className="msg-row assistant">
         <BotAvatar />
-        <div className="msg-bubble wide-card">
+        <div className="bubble assistant wide-bubble">
           <DateTimeForm
             specialty={msg.specialty}
             slots={msg.slots}
@@ -443,7 +426,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
     return (
       <div className="msg-row assistant">
         <BotAvatar />
-        <div className="msg-bubble wide-card">
+        <div className="bubble assistant wide-bubble">
           <ConfirmationCard booking={msg.booking} slot={msg.slot} />
         </div>
       </div>
@@ -454,7 +437,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
     return (
       <div className="msg-row assistant">
         <BotAvatar />
-        <div className={`msg-bubble alert-bubble ${msg.alertType || ""}`}>
+        <div className={`bubble assistant alert-bubble ${msg.alertType || "warning"}`}>
           <AlertTriangle size={16} />
           <span>{msg.content}</span>
         </div>
@@ -465,7 +448,7 @@ function MessageRow({ msg, patient, setPatient, onConfirmPatient, onConfirmBooki
   return (
     <div className={`msg-row ${isUser ? "user" : "assistant"}`}>
       {!isUser && <BotAvatar />}
-      <div className={`msg-bubble ${isUser ? "user" : ""}`}>
+      <div className={`bubble ${isUser ? "user" : "assistant"}`}>
         <RichText text={msg.content} />
       </div>
       {isUser && <UserAvatar />}
@@ -699,11 +682,11 @@ function RichText({ text }) {
 }
 
 function BotAvatar() {
-  return <div className="avatar bot"><Bot size={16} /></div>;
+  return <div className="avatar bot-avatar"><Bot size={16} /></div>;
 }
 
 function UserAvatar() {
-  return <div className="avatar user"><User size={16} /></div>;
+  return <div className="avatar user-avatar"><User size={16} /></div>;
 }
 
 createRoot(document.getElementById("root")).render(
