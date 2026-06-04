@@ -1,0 +1,55 @@
+{
+  "path": "failure",
+  "reply": "Phát hiện dấu hiệu cần chú ý: đau ngực dữ dội, khó thở. Vui lòng liên hệ cấp cứu hoặc nhân viên y tế ngay.",
+  "confidence": 1.0,
+  "specialty_id": "c7683380-0f89-4a51-84b2-d447ba63845c",
+  "specialty": "Nội - Tim Mạch",
+  "suggested_specialties": [
+    "Nội - Tim Mạch"
+  ],
+  "red_flags": [
+    "đau ngực dữ dội",
+    "khó thở"
+  ],
+  "warning_signs": [],
+  "needs_more_info": false,
+  "reasoning_summary": "Cần khám chuyên khoa Nội - Tim Mạch ngay.",
+  "follow_up_questions": [],
+  "matched_specialties": [
+    {
+      "id": "c7683380-0f89-4a51-84b2-d447ba63845c",
+      "name": "Nội - Tim Mạch",
+      "description": "CÓ CÁC TRIỆU CHỨNG NHƯ: ĐAU NGỰC, NHỊP TIM NHANH - CHẬM, MẠCH KHÔNG ĐỀU, HUYẾT ÁP CAO, …..",
+      "score": 4.0,
+      "evidence_terms": [
+        "au",
+        "kho",
+        "nguc",
+        "tho"
+      ]
+    },
+    {
+      "id": "60d76230-3d70-46a6-bb9c-0acf8a5c2241",
+      "name": "Nội - Tiêu Hóa",
+      "description": "CÓ CÁC TRIỆU CHỨNG: ĐAU VÙNG THƯỢNG VỊ, Ợ HƠI - CHUA, RỐI LOẠN TIÊU HÓA, ỈA MÁU, ……",
+      "score": 2.0,
+      "evidence_terms": [
+        "au",
+        "kho"
+      ]
+    },
+    {
+      "id": "14879c22-e3a4-4296-9fa7-6f5c8fb12093",
+      "name": "Nội - Hô Hấp",
+      "description": "CÓ CÁC TRIỆU CHỨNG: HO KHAN, HO ĐỜM, BỆNH PHỔI MÃN TÍNH, CÓ TIỀN SỬ HÚT THUỐC LÁ NHIỀU, ...",
+      "score": 2.0,
+      "evidence_terms": [
+        "kho",
+        "tho"
+      ]
+    }
+  ],
+  "analysis_source": "agent-tool",
+  "slots": [],
+  "booking_ready": true
+}

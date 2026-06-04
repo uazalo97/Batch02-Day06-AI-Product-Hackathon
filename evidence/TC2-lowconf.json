@@ -1,0 +1,99 @@
+{
+  "path": "happy",
+  "reply": "Tôi gợi ý khám **Khám nội tổng quát**. Chọn chuyên khoa Khám nội tổng quát cho triệu chứng mệt mỏi.",
+  "confidence": 0.9,
+  "specialty_id": "a0a36ab1-c7fe-4a18-8b92-16bec3c03fdf",
+  "specialty": "Khám nội tổng quát",
+  "suggested_specialties": [
+    "Khám nội tổng quát",
+    "Nội - Huyết Học"
+  ],
+  "red_flags": [],
+  "warning_signs": [],
+  "needs_more_info": false,
+  "reasoning_summary": "Chọn chuyên khoa Khám nội tổng quát cho triệu chứng mệt mỏi.",
+  "follow_up_questions": [],
+  "matched_specialties": [
+    {
+      "id": "d238d71c-773d-4b09-9335-a841aee869d8",
+      "name": "Nội - Huyết Học",
+      "description": "CÓ CÁC TRIỆU CHỨNG SAU: MỆT MỎI, DA XANH, CÓ CÁC NỐT XUẤT HUYẾT, HOẶC BẦM TÍM DƯỚI DA,...",
+      "score": 5.0,
+      "evidence_terms": []
+    },
+    {
+      "id": "a0a36ab1-c7fe-4a18-8b92-16bec3c03fdf",
+      "name": "Khám nội tổng quát",
+      "description": "Khám nội tổng quát giúp đánh giá tình trạng sức khỏe tổng thể của mỗi người thông qua việc đánh giá chức năng của hầu hết các cơ quan trong cơ thể như tim, gan, phổi, thận…Từ đó sẽ giúp phát hiện các bệnh lý nếu có và kịp thời điều trị để đảm bảo sức khỏe.",
+      "score": 5.0,
+      "evidence_terms": []
+    }
+  ],
+  "analysis_source": "agent-tool",
+  "slots": [
+    {
+      "id": "slot-cardio-1",
+      "date": "2026-06-05",
+      "time": "10:00",
+      "specialty": "Nội - Tim Mạch",
+      "doctor": "BS. Tran Hoang Nam"
+    },
+    {
+      "id": "slot-cardio-2",
+      "date": "2026-06-06",
+      "time": "15:00",
+      "specialty": "Nội - Tim Mạch",
+      "doctor": "BS. Tran Hoang Nam"
+    },
+    {
+      "id": "slot-internal-1",
+      "date": "2026-06-05",
+      "time": "08:30",
+      "specialty": "Khám nội tổng quát",
+      "doctor": "BS. Le Thu Ha"
+    },
+    {
+      "id": "slot-internal-2",
+      "date": "2026-06-06",
+      "time": "13:30",
+      "specialty": "Khám nội tổng quát",
+      "doctor": "BS. Le Thu Ha"
+    },
+    {
+      "id": "slot-bone-1",
+      "date": "2026-06-06",
+      "time": "09:00",
+      "specialty": "Nội - Cơ Xương Khớp",
+      "doctor": "BS. Do Quang Huy"
+    },
+    {
+      "id": "slot-derm-1",
+      "date": "2026-06-05",
+      "time": "15:30",
+      "specialty": "Da Liễu",
+      "doctor": "BS. Vu Mai Linh"
+    },
+    {
+      "id": "slot-ent-1",
+      "date": "2026-06-05",
+      "time": "13:30",
+      "specialty": "Tai Mũi Họng",
+      "doctor": "BS. Hoang Gia Bao"
+    },
+    {
+      "id": "slot-ent-2",
+      "date": "2026-06-05",
+      "time": "15:00",
+      "specialty": "Tai Mũi Họng",
+      "doctor": "BS. Hoang Gia Bao"
+    },
+    {
+      "id": "slot-ent-3",
+      "date": "2026-06-06",
+      "time": "08:30",
+      "specialty": "Tai Mũi Họng",
+      "doctor": "BS. Hoang Gia Bao"
+    }
+  ],
+  "booking_ready": true
+}

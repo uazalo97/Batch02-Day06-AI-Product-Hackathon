@@ -231,6 +231,138 @@ Phiếu hẹn sai thông tin → bệnh viện không tìm được hồ sơ →
 - Log tất cả các lần sửa để cải thiện bước trích xuất trong các phiên bản sau.
 - Đây chính là lý do phiếu xác nhận là bắt buộc, không bao giờ đặt lịch ngầm định.
 
+## 7. Kế hoạch kiểm thử và bằng chứng demo
+
+### 7.1. Nhóm em test cái gì
+
+Phần AI thật của sản phẩm chỉ nằm ở một chỗ: API `POST /api/chat/triage`. Người bệnh gõ
+triệu chứng, backend đẩy qua LangGraph + một agent gpt-4o-mini, agent gọi 2 tool để tra
+chuyên khoa và lịch trống, rồi trả về kết quả. Tùy kết quả mà luồng rẽ sang một trong ba hướng:
+
+- `happy`: đủ thông tin, gợi ý một chuyên khoa kèm lịch trống để đặt luôn.
+- `low-confidence`: triệu chứng còn mơ hồ, bot hỏi lại chứ không đoán bừa.
+- `failure`: gặp dấu hiệu cấp cứu (red flag), dừng đặt lịch và khuyên đi cấp cứu.
+
+Nên test ở đây là gõ thử các kiểu triệu chứng rồi xem nó có rẽ đúng hướng và trả lời hợp lý không.
+
+### 7.2. Hai đầu vào nhóm em chuẩn bị sẵn để demo
+
+Đề yêu cầu một đầu vào bình thường và một đầu vào khó. Nhóm em chọn:
+
+Đầu vào bình thường (đường thuận):
+
+```
+Tôi đau bụng âm ỉ 3 ngày nay, hay buồn nôn sau khi ăn
+```
+
+Mong đợi bot gợi ý Nội - Tiêu Hóa, hiện lịch trống, người dùng bấm một cái là đặt được.
+
+Đầu vào khó: ban đầu nhóm em định dùng câu mơ hồ "Tôi thấy mệt" để ép bot hỏi lại. Nhưng khi
+chạy thật thì bot không hỏi lại mà vẫn chọn đại "Khám nội tổng quát" (xem 7.3). Vì vậy nhóm em
+đổi đầu vào khó sang hai tình huống chạy ổn định hơn và cũng nói lên được sản phẩm xử lý ra sao
+khi gặp chuyện bất thường:
+
+- Câu báo động: `Tôi đau ngực dữ dội và khó thở` — bot phải dừng đặt lịch, báo cấp cứu.
+- Câu đính chính giữa chừng: kêu đau đầu rồi sửa lại `Thực ra tôi đùa, chỉ hơi sổ mũi thôi` —
+  bot phải bỏ triệu chứng cũ và bám theo câu mới nhất.
+
+### 7.3. Các trường hợp đã test
+
+Tất cả chạy thật với AI thật (gpt-4o-mini, `analysis_source = agent-tool`) ngày 04/06/2026.
+Kết quả thô lưu trong `evidence/` (các file JSON).
+
+| Đầu vào | Mong đợi | Thực tế chạy ra | Kết luận |
+|---|---|---|---|
+| Đau bụng âm ỉ, buồn nôn | đường thuận | Nội - Tiêu Hóa, conf 0.9, có 10 lịch trống | Đạt |
+| "Tôi thấy mệt" | bot hỏi lại | lại chọn Khám nội tổng quát, không hỏi gì | Không như mong đợi |
+| Đau ngực dữ dội, khó thở | báo cấp cứu | đúng là dừng đặt lịch, cảnh báo đi cấp cứu | Đạt |
+| Đau đầu → "chỉ sổ mũi thôi" | bám câu mới | chuyển sang Tai Mũi Họng, bỏ đau đầu | Đạt |
+| Chạy mà không có API key | không được sập | rơi về low-confidence, báo lỗi rõ, app vẫn chạy | Đạt |
+
+Có một chuyện nhóm em thấy đáng nói: cái nhánh "bot hỏi lại" gần như không bao giờ xảy ra. Ngoài
+câu "Tôi thấy mệt", nhóm em thử thêm 5 câu mơ hồ nữa (kiểu "Tôi bị đau", "Tôi muốn đi khám",
+"Tôi thấy là lạ"...), cả 5 bot đều tự tin chọn một chuyên khoa, đa phần là "Khám nội tổng quát",
+chẳng hỏi lại câu nào. Lý do là trong danh mục có sẵn chuyên khoa "Khám nội tổng quát" nên agent
+luôn vơ được một cái để gán vào. Đây vừa là điểm yếu (mất đi đường an toàn khi AI chưa chắc) vừa
+là điểm nhóm em sẽ nói thẳng khi demo. Muốn nó hỏi lại đàng hoàng thì phải sửa lại prompt, mà việc
+đó để sau, không nằm trong phần kiểm thử này. Script nhóm em dùng để dò nằm ở
+`evidence/probe-lowconfidence.py`.
+
+### 7.4. Cách chạy lại để test
+
+Cách chuẩn theo README là dùng Docker:
+
+```bash
+cd codebase
+cp backend/.env.example backend/.env
+docker compose up --build
+```
+
+Nhớ điền OPENAI_API_KEY vào file .env trước khi chạy. Xong thì mở app ở
+http://localhost:5173, xem API ở http://localhost:8000/docs.
+
+Máy nhóm em không cài Docker nên lúc test đã chạy cách nhẹ hơn: dùng SQLite thay cho Postgres,
+chỉ đổi một biến môi trường chứ không đụng vào code. Cách này đã chạy được trên Python 3.14:
+
+```powershell
+cd codebase\backend
+py -3.14 -m venv .venv
+.\.venv\Scripts\python -m pip install fastapi "uvicorn[standard]" pydantic-settings SQLAlchemy python-dotenv langchain langchain-core langchain-openai langgraph
+$env:DATABASE_URL = "sqlite:///./dev.db"
+$env:OPENAI_API_KEY = "sk-..."
+$env:PYTHONIOENCODING = "utf-8"
+.\.venv\Scripts\python -m uvicorn app.main:app --port 8000
+```
+
+Nếu để trống OPENAI_API_KEY thì app vẫn chạy nhưng rơi vào nhánh fallback, không có AI thật.
+Bản nộp chính thức vẫn để Postgres + Docker như thiết kế gốc, SQLite chỉ là để test cho nhanh.
+
+### 7.5. Bằng chứng đã giữ lại
+
+Tất cả nằm trong thư mục `evidence/`. Có hai loại:
+
+Ảnh chụp màn hình app (file PNG) — đây là cái để chiếu khi demo:
+
+- `tc1-happy-suggest.png` — bot gợi ý Nội - Tiêu Hóa kèm nút đặt lịch.
+- `tc1-booking-success.png` — đặt lịch xong, hiện mã hẹn 998713BC.
+- `tc3-redflag.png` — câu đau ngực, khó thở bị chặn lại, bot báo đi cấp cứu.
+- `tc4-correction.png` — sau khi đính chính "chỉ sổ mũi", bot đổi sang Tai Mũi Họng.
+
+Log AI (file JSON) — dữ liệu thô agent trả về, để chứng minh AI chạy thật chứ không phải mockup:
+`TC1-happy.json`, `TC2-lowconf.json`, `TC3-redflag.json`, `TC4-correction.json`. Trong đó có
+chuyên khoa, độ tự tin, red flag và lý do AI đưa ra. Muốn chạy lại để lấy log thì dùng
+`capture-evidence.py`.
+
+Nhóm em chưa có ảnh cho nhánh "bot hỏi lại" vì như nói ở trên, chưa ép được nó xảy ra.
+
+### 7.6. Mấy chỗ nhóm em cân nhắc khi quyết định
+
+- Cho AI tự đặt lịch hay chỉ gợi ý? Nhóm em chọn để AI gợi ý thôi, người dùng vẫn phải tự bấm
+  xác nhận. Lý do là gợi ý sai chuyên khoa thì hậu quả nặng và khó sửa, nên giữ con người ở khâu
+  quyết định cuối cho an toàn.
+- Khi nào bật cảnh báo cấp cứu? Chỉ bật khi triệu chứng rõ ràng nguy hiểm. Triệu chứng lờ mờ thì
+  cho vào diện cần hỏi thêm, tránh dọa người dùng bằng báo động giả.
+- Khi thiếu API key thì sao? Nhóm em để nó rơi về trạng thái hỏi thêm và báo lỗi rõ ràng, miễn là
+  app đừng sập giữa lúc demo, và cũng không giả vờ là có AI.
+- Người dùng đính chính giữa chừng? Nhóm em ưu tiên câu mới nhất, bỏ qua triệu chứng đã rút lại,
+  vì người thật hay nói nhầm rồi sửa.
+
+### 7.7. Khi người dùng sửa thì dữ liệu đi đâu
+
+Lúc người dùng đổi chuyên khoa mà bot gợi ý, nhóm em định ghi lại cặp (triệu chứng — chuyên khoa
+người dùng thật sự chọn) để làm tập test cho lần sau, và để chỉnh lại bộ từ khóa chấm điểm chuyên
+khoa trong `specialty_knowledge.py`. Hiện mới là dự định, chưa làm.
+
+---
+
+### Còn để ngỏ
+
+- Nhánh "bot hỏi lại" có nên sửa prompt trước demo không, hay chấp nhận để nó luôn chọn "Khám
+  nội tổng quát"? Cái này cả nhóm cần chốt.
+- Lúc demo thật thì chạy Docker hay chạy SQLite cho nhẹ?
+
+---
+
 ## 8. Phân công thành viên
 
 | MSSV        | Họ và tên          | Vai trò                  | Nhiệm vụ cụ thể                                                                                                                                                                |
