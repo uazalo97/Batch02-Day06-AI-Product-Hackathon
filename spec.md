@@ -233,11 +233,11 @@ Phiếu hẹn sai thông tin → bệnh viện không tìm được hồ sơ →
 
 ## 8. Phân công thành viên
 
-| MSSV        | Họ và tên          | Vai trò                  | Nhiệm vụ cụ thể                                                                                                                                  |
-| ----------- | ------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2A202600840 | Nguyễn Nam Thắng   | Backend — AI & Infra     | Xây dựng AI triage flow bằng LangGraph; thiết kế và duy trì API chat; quản lý repository (repo owner, review PR, phân nhánh).                    |
-| 2A202600934 | Trần Trúc Quỳnh    | Backend — Data & API     | Thiết kế database schema; xây dựng booking API và catalog API (danh sách chuyên khoa, lịch trống bác sĩ).                                        |
-| 2A202600663 | Phạm Huy Cảnh      | Frontend — Core UI       | Xây dựng giao diện chat chính; form nhập thông tin bệnh nhân; luồng đặt lịch phía client (từ hội thoại đến phiếu hẹn).                           |
-| 2A202600855 | Nguyễn Tiến Huân   | Frontend — UX & Mobile   | Styling và tối ưu mobile UI; thiết kế quick replies (nút gợi ý nhanh); màn hình xác nhận lịch hẹn (confirmation screen).                         |
-| 2A202600810 | Nguyễn Xuân Tới    | Spec & Prompt & Research | Viết và kiểm thử prompt cho triage flow; thu thập bằng chứng người dùng (quan sát, đánh giá app, phỏng vấn); đảm bảo spec phản ánh nhu cầu thực. |
-| 2A202600575 | Phạm Thị Bích Ngọc | Spec & Prompt & Demo     | Lên ý tưởng và viết kịch bản demo; viết và kiểm thử prompt dưới dạng `.md`; đảm bảo luồng hội thoại tự nhiên và phù hợp đối tượng low-tech.      |
+| MSSV        | Họ và tên          | Vai trò                  | Nhiệm vụ cụ thể                                                                                                                                                                |
+| ----------- | ------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2A202600840 | Nguyễn Nam Thắng   | Backend — AI & Infra     | Xây dựng AI triage flow bằng LangGraph; thiết kế và duy trì API chat                                                                                                           |
+| 2A202600934 | Trần Trúc Quỳnh    | Backend — Data & API     | Thiết kế database schema; xây dựng booking API và catalog API (danh sách chuyên khoa, lịch trống bác sĩ).                                                                      |
+| 2A202600663 | Phạm Huy Cảnh      | Frontend — Core UI       | Xây dựng giao diện chat chính; form nhập thông tin bệnh nhân; luồng đặt lịch phía client (từ hội thoại đến phiếu hẹn); quản lý repository (repo owner, review PR, phân nhánh). |
+| 2A202600855 | Nguyễn Tiến Huân   | Frontend — UX & Mobile   | Styling và tối ưu mobile UI; thiết kế quick replies (nút gợi ý nhanh); màn hình xác nhận lịch hẹn (confirmation screen).                                                       |
+| 2A202600810 | Nguyễn Xuân Tới    | Spec & Prompt & Research | Viết và kiểm thử prompt cho triage flow; thu thập bằng chứng người dùng (quan sát, đánh giá app, phỏng vấn); đảm bảo spec phản ánh nhu cầu thực.                               |
+| 2A202600575 | Phạm Thị Bích Ngọc | Spec & Prompt & Demo     | Lên ý tưởng và viết kịch bản demo; viết và kiểm thử prompt dưới dạng `.md`; đảm bảo luồng hội thoại tự nhiên và phù hợp đối tượng low-tech.                                    |
