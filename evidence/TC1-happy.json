@@ -1,0 +1,103 @@
+{
+  "path": "happy",
+  "reply": "Tôi gợi ý khám **Nội - Tiêu Hóa**. Chọn chuyên khoa Nội - Tiêu Hóa cho triệu chứng đau bụng.",
+  "confidence": 0.9,
+  "specialty_id": "60d76230-3d70-46a6-bb9c-0acf8a5c2241",
+  "specialty": "Nội - Tiêu Hóa",
+  "suggested_specialties": [
+    "Nội - Tiêu Hóa"
+  ],
+  "red_flags": [],
+  "warning_signs": [],
+  "needs_more_info": false,
+  "reasoning_summary": "Chọn chuyên khoa Nội - Tiêu Hóa cho triệu chứng đau bụng.",
+  "follow_up_questions": [],
+  "matched_specialties": [
+    {
+      "id": "60d76230-3d70-46a6-bb9c-0acf8a5c2241",
+      "name": "Nội - Tiêu Hóa",
+      "description": "CÓ CÁC TRIỆU CHỨNG: ĐAU VÙNG THƯỢNG VỊ, Ợ HƠI - CHUA, RỐI LOẠN TIÊU HÓA, ỈA MÁU, ……",
+      "score": 4.0,
+      "evidence_terms": [
+        "au",
+        "bung",
+        "buon",
+        "non"
+      ]
+    }
+  ],
+  "analysis_source": "agent-tool",
+  "slots": [
+    {
+      "id": "slot-gastro-1",
+      "date": "2026-06-05",
+      "time": "08:00",
+      "specialty": "Nội - Tiêu Hóa",
+      "doctor": "BS. Nguyen Minh An"
+    },
+    {
+      "id": "slot-gastro-2",
+      "date": "2026-06-05",
+      "time": "09:30",
+      "specialty": "Nội - Tiêu Hóa",
+      "doctor": "BS. Nguyen Minh An"
+    },
+    {
+      "id": "slot-gastro-3",
+      "date": "2026-06-06",
+      "time": "14:00",
+      "specialty": "Nội - Tiêu Hóa",
+      "doctor": "BS. Nguyen Minh An"
+    },
+    {
+      "id": "slot-cardio-1",
+      "date": "2026-06-05",
+      "time": "10:00",
+      "specialty": "Nội - Tim Mạch",
+      "doctor": "BS. Tran Hoang Nam"
+    },
+    {
+      "id": "slot-cardio-2",
+      "date": "2026-06-06",
+      "time": "15:00",
+      "specialty": "Nội - Tim Mạch",
+      "doctor": "BS. Tran Hoang Nam"
+    },
+    {
+      "id": "slot-bone-1",
+      "date": "2026-06-06",
+      "time": "09:00",
+      "specialty": "Nội - Cơ Xương Khớp",
+      "doctor": "BS. Do Quang Huy"
+    },
+    {
+      "id": "slot-derm-1",
+      "date": "2026-06-05",
+      "time": "15:30",
+      "specialty": "Da Liễu",
+      "doctor": "BS. Vu Mai Linh"
+    },
+    {
+      "id": "slot-ent-1",
+      "date": "2026-06-05",
+      "time": "13:30",
+      "specialty": "Tai Mũi Họng",
+      "doctor": "BS. Hoang Gia Bao"
+    },
+    {
+      "id": "slot-ent-2",
+      "date": "2026-06-05",
+      "time": "15:00",
+      "specialty": "Tai Mũi Họng",
+      "doctor": "BS. Hoang Gia Bao"
+    },
+    {
+      "id": "slot-ent-3",
+      "date": "2026-06-06",
+      "time": "08:30",
+      "specialty": "Tai Mũi Họng",
+      "doctor": "BS. Hoang Gia Bao"
+    }
+  ],
+  "booking_ready": true
+}
